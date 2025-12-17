@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CryptoSA | Book Early Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">CryptoSA</div>
+  <nav>
+    <a>Home</a>
+    <a class="active">Book Now</a>
+    <a>Check Status</a>
+  </nav>
+  <button class="nav-btn">Get Started</button>
+</header>
+
+<section class="booking">
+
+  <h1>Book Your <span>Early Access</span></h1>
+  <p class="subtitle">
+    Secure your spot now and be among the first to access our exclusive crypto services
+  </p>
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step active">1</div>
+    <div class="line"></div>
+    <div class="step">2</div>
+    <div class="line"></div>
+    <div class="step">3</div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step-content active" id="step1">
+    <div class="cards">
+
+      <div class="card" data-package="Starter" data-amount="1000">
+        <h3>Starter</h3>
+        <p>Perfect for beginners</p>
+        <h2>$1,000</h2>
+        <ul>
+          <li>✔ Basic consultation</li>
+          <li>✔ Portfolio setup</li>
+          <li>✔ Email support</li>
+          <li>✔ 1-month access</li>
+        </ul>
+      </div>
+
+      <div class="card popular" data-package="Professional" data-amount="5000">
+        <h3>Professional</h3>
+        <p>For serious investors</p>
+        <h2>$5,000</h2>
+        <ul>
+          <li>✔ Advanced consultation</li>
+          <li>✔ Custom strategy</li>
+          <li>✔ Priority support</li>
+          <li>✔ 3-month access</li>
+        </ul>
+      </div>
+
+      <div class="card" data-package="Enterprise" data-amount="25000">
+        <h3>Enterprise</h3>
+        <p>Institutional solutions</p>
+        <h2>$25,000</h2>
+        <ul>
+          <li>✔ Dedicated manager</li>
+          <li>✔ Custom solutions</li>
+          <li>✔ 24/7 VIP support</li>
+          <li>✔ 12-month access</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <button class="continue" id="toStep2">Continue →</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-content" id="step2">
+    <form id="bookingForm">
+      <input id="name" placeholder="Full Name" required>
+      <input id="email" type="email" placeholder="Email Address" required>
+      <input id="phone" placeholder="Phone Number" required>
+      <button type="submit">Confirm Booking</button>
+    </form>
+    <p id="responseMessage"></p>
+  </div>
+
+</section>
+
+<script src="js/booking.js"></script>
+</body>
+</html>
