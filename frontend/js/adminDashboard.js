@@ -3,19 +3,68 @@ const table = document.getElementById("bookingTable");
 
 let allBookings = [];
 
-async function loadBookings() {
-  const res = await fetch("http://localhost:5000/api/bookings", {
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  });
-
-  allBookings = await res.json();
-  renderBookings(allBookings);
+/* =========================
+   SKELETON LOADING
+========================= */
+function showSkeleton() {
+  table.innerHTML = `
+    <tr>
+      <td colspan="7" style="padding:30px; opacity:0.5; text-align:center">
+        Loading bookings...
+      </td>
+    </tr>
+  `;
 }
 
+/* =========================
+   LOAD BOOKINGS (SAFE)
+========================= */
+async function loadBookings() {
+  showSkeleton();
+
+  try {
+    const res = await fetch("http://localhost:5000/api/bookings", {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
+
+    // If backend responds but not OK (401, 403, 500)
+    if (!res.ok) {
+      renderBookings([]);
+      return;
+    }
+
+    allBookings = await res.json();
+
+    // Reset status filter on reload
+    const statusFilter = document.getElementById("statusFilter");
+    if (statusFilter) statusFilter.value = "all";
+
+    renderBookings(allBookings);
+
+  } catch (err) {
+    // Backend down / network issue
+    renderBookings([]);
+  }
+}
+
+/* =========================
+   RENDER BOOKINGS
+========================= */
 function renderBookings(bookings) {
   table.innerHTML = "";
+
+  if (!bookings || bookings.length === 0) {
+    table.innerHTML = `
+      <tr>
+        <td colspan="7" style="padding:30px; opacity:0.5; text-align:center">
+          No bookings available
+        </td>
+      </tr>
+    `;
+    return;
+  }
 
   bookings.forEach(b => {
     const row = document.createElement("tr");
@@ -31,9 +80,15 @@ function renderBookings(bookings) {
       <td>${new Date(b.createdAt).toLocaleDateString()}</td>
       <td>
         <select class="action" onchange="updateStatus('${b._id}', this.value)">
-          <option ${b.status === "pending" ? "selected" : ""}>pending</option>
-          <option ${b.status === "approved" ? "selected" : ""}>approved</option>
-          <option ${b.status === "rejected" ? "selected" : ""}>rejected</option>
+          <option value="pending" ${b.status === "pending" ? "selected" : ""}>
+            Pending
+          </option>
+          <option value="approved" ${b.status === "approved" ? "selected" : ""}>
+            Confirmed
+          </option>
+          <option value="rejected" ${b.status === "rejected" ? "selected" : ""}>
+            Rejected
+          </option>
         </select>
       </td>
     `;
@@ -42,22 +97,43 @@ function renderBookings(bookings) {
   });
 }
 
+/* =========================
+   UPDATE STATUS (OPTIMISTIC)
+========================= */
 async function updateStatus(id, status) {
-  await fetch(`http://localhost:5000/api/bookings/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify({ status })
-  });
+  try {
+    const res = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      },
+      body: JSON.stringify({ status })
+    });
 
-  loadBookings();
+    if (!res.ok) return;
+
+    // Optimistic UI update
+    allBookings = allBookings.map(b =>
+      b._id === id ? { ...b, status } : b
+    );
+
+    applyFilters();
+
+  } catch (err) {
+    // Silent fail (no alert, no panic)
+  }
 }
 
+/* =========================
+   FILTERS (SEARCH + STATUS)
+========================= */
 function applyFilters() {
-  const search = document.getElementById("searchInput").value.toLowerCase();
-  const status = document.getElementById("statusFilter").value;
+  const searchInput = document.getElementById("searchInput");
+  const statusSelect = document.getElementById("statusFilter");
+
+  const search = searchInput ? searchInput.value.toLowerCase() : "";
+  const status = statusSelect ? statusSelect.value : "all";
 
   let filtered = allBookings.filter(b =>
     b.bookingId.toLowerCase().includes(search) ||
@@ -72,9 +148,56 @@ function applyFilters() {
   renderBookings(filtered);
 }
 
+/* =========================
+   EXPORT CSV
+========================= */
+function exportCSV() {
+  if (!allBookings.length) return;
+
+  const headers = [
+    "Booking ID",
+    "Name",
+    "Email",
+    "Phone",
+    "Status",
+    "Created"
+  ];
+
+  const rows = allBookings.map(b => [
+    b.bookingId,
+    b.name,
+    b.email,
+    b.phone,
+    b.status,
+    new Date(b.createdAt).toLocaleDateString()
+  ]);
+
+  let csv = headers.join(",") + "\n";
+  rows.forEach(r => {
+    csv += r.join(",") + "\n";
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "bookings.csv";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+/* =========================
+   LOGOUT
+========================= */
 function logout() {
   localStorage.removeItem("adminToken");
   window.location.href = "index.html";
 }
 
+/* =========================
+   INIT + AUTO REFRESH
+========================= */
 loadBookings();
+setInterval(loadBookings, 30000); // auto refresh every 30s

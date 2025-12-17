@@ -2,24 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard | CryptoSA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- STYLES -->
   <link rel="stylesheet" href="css/admin.css" />
 </head>
 <body>
 
 <div class="app">
 
-  <!-- SIDEBAR -->
+  <!-- ======================
+       SIDEBAR
+  ======================= -->
   <aside class="sidebar">
     <h2 class="logo">Admin</h2>
+
     <nav>
       <a class="active">Bookings</a>
-      <a>Analytics</a>
       <a>Support</a>
     </nav>
   </aside>
 
-  <!-- MAIN -->
+  <!-- ======================
+       MAIN CONTENT
+  ======================= -->
   <main class="main">
 
     <!-- HEADER -->
@@ -28,19 +35,23 @@
         <h1>Welcome back</h1>
         <p>Manage your bookings and support</p>
       </div>
+
       <div class="profile">
-        <span>user@gmail.com</span>
+        <span id="adminEmail">admin@cryptosa.com</span>
         <button onclick="logout()">Sign Out</button>
       </div>
     </header>
 
-    <!-- CONTENT -->
+    <!-- BOOKINGS CARD -->
     <section class="card">
+
+      <!-- CARD HEADER -->
       <div class="card-header">
         <h2>Bookings Management</h2>
+
         <div class="actions">
           <button onclick="loadBookings()">Refresh</button>
-          <button class="export">Export CSV</button>
+          <button class="export" onclick="exportCSV()">Export CSV</button>
         </div>
       </div>
 
@@ -74,13 +85,20 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="bookingTable"></tbody>
+
+        <tbody id="bookingTable">
+          <!-- injected dynamically -->
+        </tbody>
       </table>
+
     </section>
 
   </main>
 </div>
 
+<!-- ======================
+     SCRIPTS
+======================= -->
 
 <script src="js/adminDashboard.js"></script>
 <script src="js/adminAuth.js"></script>

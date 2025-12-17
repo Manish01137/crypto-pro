@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CryptoSA — Your Gateway to Crypto</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#020617;
+  --card:#020b1a;
+  --border:#1e293b;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --accent1:#22d3ee;
+  --accent2:#8b5cf6;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+
+body{
+  background:
+    radial-gradient(800px 500px at 50% -200px,#0ea5e955,transparent),
+    #020617;
+  color:var(--text);
+}
+
+/* NAVBAR */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter: blur(10px);
+  background:linear-gradient(180deg,#020617cc,#020617aa);
+  border-bottom:1px solid var(--border);
+  padding:16px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:20px;
+}
+
+.logo span{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:#020617;
+}
+
+.nav-links a{
+  color:var(--muted);
+  margin:0 14px;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.nav-links a.active,
+.nav-links a:hover{color:var(--accent1)}
+
+.btn-nav{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:#020617;
+  padding:10px 18px;
+  border-radius:10px;
+  font-weight:600;
+  text-decoration:none;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:110px 20px 80px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:#020b1a;
+  color:var(--accent1);
+  font-size:14px;
+  margin-bottom:24px;
+}
+
+.timer{
+  display:flex;
+  justify-content:center;
+  gap:26px;
+  margin-bottom:36px;
+}
+
+.time-box{
+  text-align:center;
+}
+
+.time-box h2{
+  font-size:38px;
+  color:var(--accent1);
+}
+
+.time-box span{
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+.hero h1{
+  font-size:54px;
+  line-height:1.15;
+  margin-bottom:20px;
+}
+
+.hero h1 span{
+  background: linear-gradient(135deg,var(--accent1),var(--accent2));
+  background-clip: text;              /* standard */
+  -webkit-background-clip: text;      /* chrome / safari */
+  color: transparent;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:18px;
+  max-width:700px;
+  margin:0 auto 40px;
+}
+
+.hero-btns{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:34px;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  padding:14px 28px;
+  border-radius:14px;
+  color:#020617;
+  font-weight:600;
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
+  transition:transform .15s ease, box-shadow .2s;
+}
+
+.btn-primary:hover{
+  box-shadow:0 0 40px rgba(34,211,238,.6);
+  transform:translateY(-2px);
+}
+
+.btn-secondary{
+  padding:14px 28px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  text-decoration:none;
+}
+
+/* TRUST */
+.trust{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* FEATURES */
+.section{
+  padding:90px 60px;
+}
+
+.section h2{
+  text-align:center;
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.section p{
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:50px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+
+.card{
+  background:linear-gradient(180deg,#020b1a,#01040f);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:28px;
+  transition:.3s;
+}
+
+.card{
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+
+.card:hover{
+  box-shadow:
+    0 0 0 1px rgba(34,211,238,.4),
+    0 20px 60px rgba(14,165,233,.35);
+}
+
+
+.icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:#022c3a;
+  display:grid;
+  place-items:center;
+  color:var(--accent1);
+  margin-bottom:16px;
+  font-size:20px;
+}
+
+.card h3{margin-bottom:8px}
+.card p{color:var(--muted);font-size:14px}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);
+  padding:60px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:40px;
+}
+
+footer p{color:var(--muted)}
+
+footer a{
+  display:block;
+  margin-bottom:10px;
+  color:var(--muted);
+  text-decoration:none;
+}
+
+.copy{
+  text-align:center;
+  margin-top:40px;
+  color:#64748b;
+  font-size:14px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .grid,.footer-grid{grid-template-columns:1fr}
+  .navbar{padding:16px 24px}
+  .section{padding:80px 24px}
+  .hero h1{font-size:40px}
+}
+
+/* ===============================
+   MOBILE RESPONSIVE FIXES
+================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .navbar {
+    padding: 14px 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  /* NAVBAR */
+  .nav-links {
+    display: none; /* clean mobile look */
+  }
+
+  .btn-nav {
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 90px 16px 70px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  /* TIMER */
+  .timer {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .time-box h2 {
+    font-size: 28px;
+  }
+
+  /* BUTTONS */
+  .hero-btns {
+    flex-direction: column;
+  }
+
+  .hero-btns a {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* FEATURES */
+  .section {
+    padding: 70px 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 50px 16px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  footer a {
+    display: inline-block;
+    margin: 6px 10px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 420px) {
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .time-box h2 {
+    font-size: 24px;
+  }
+}
+
+/* FLOATING SYMBOLS */
+#crypto-float-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.crypto-symbol{
+  position:absolute;
+  font-size:22px;
+  opacity:0.15;
+  color:#22d3ee;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp{
+  from{
+    transform: translateY(110vh) rotate(0deg);
+  }
+  to{
+    transform: translateY(-20vh) rotate(360deg);
+  }
+}
+
+
+
+/* 🔥 GRID BACKGROUND ANIMATION */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:60px 60px;
+    animation:gridMove 20s linear infinite;
+    pointer-events:none;
+    z-index:0; /* important */
+  }
+
+  @keyframes gridMove{
+    from{background-position:0 0}
+    to{background-position:600px 600px}
+  }
+
+
+/* CURSOR GLOW */
+#cursor-glow{
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,211,238,0.6), transparent 60%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: transform 0.08s linear;
+}
+
+body{
+  animation: pageEnter 1s ease forwards;
+}
+
+@keyframes pageEnter{
+  from{
+    opacity:0;
+    transform: translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform: translateY(0);
+  }
+}
+
+.icon{
+  animation: iconPulse 4s ease-in-out infinite;
+}
+
+@keyframes iconPulse{
+  0%,100%{
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(34,211,238,0);
+  }
+  50%{
+    transform: scale(1.08);
+    box-shadow: 0 0 25px rgba(34,211,238,0.4);
+  }
+}
+
+.icon{
+  animation: iconPulse 4s ease-in-out infinite;
+}
+
+.card:nth-child(1) .icon{animation-delay:0s}
+.card:nth-child(2) .icon{animation-delay:.4s}
+.card:nth-child(3) .icon{animation-delay:.8s}
+.card:nth-child(4) .icon{animation-delay:1.2s}
+.card:nth-child(5) .icon{animation-delay:1.6s}
+.card:nth-child(6) .icon{animation-delay:2s}
+
+
+/* HAMBURGER */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+}
+
+.hamburger span{
+  width:24px;
+  height:2px;
+  background:#e5e7eb;
+  transition:.3s;
+  border-radius:2px;
+}
+
+/* MOBILE MENU */
+@media (max-width: 768px){
+
+  .desktop-only{
+    display:none;
+  }
+
+  .hamburger{
+    display:flex;
+  }
+
+  .nav-links{
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:linear-gradient(180deg,#020617,#01030f);
+    border-top:1px solid #1e293b;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    padding:30px 0;
+    display:none;
+  }
+
+  .nav-links.show{
+    display:flex;
+    animation: slideDown .3s ease;
+  }
+
+  .nav-links a{
+    font-size:16px;
+  }
+
+  .mobile-cta{
+    background:linear-gradient(135deg,#22d3ee,#8b5cf6);
+    padding:10px 22px;
+    border-radius:12px;
+    color:#020617 !important;
+    font-weight:600;
+  }
+}
+
+@keyframes slideDown{
+  from{
+    opacity:0;
+    transform:translateY(-10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+
+
+
+
+
+
+</style>
+</head>
+<div id="crypto-float-layer"></div>
+<div id="cursor-glow"></div>
+
+<body>
+
+<!-- NAV -->
+<div class="navbar">
+  <div class="logo"><span>C</span>CryptoSA</div>
+
+  <div class="nav-links" id="navLinks">
+    <a class="active" href="index.html">Home</a>
+    <a href="book.html">Book Now</a>
+    <a href="status.html">Check Status</a>
+    <a href="admin.html">Admin</a>
+    <a href="book.html" class="mobile-cta">Get Started</a>
+  </div>
+
+  <!-- HAMBURGER -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- DESKTOP CTA -->
+  <a href="book.html" class="btn-nav desktop-only">Get Started</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">🛡 Saudi Regulated & Secure</div>
+
+  <div class="timer" id="timer">
+    <div class="time-box"><h2 id="d">03</h2><span>DAYS</span></div>
+    <div class="time-box"><h2 id="h">03</h2><span>HOURS</span></div>
+    <div class="time-box"><h2 id="m">28</h2><span>MIN</span></div>
+    <div class="time-box"><h2 id="s">17</h2><span>SEC</span></div>
+  </div>
+
+  <h1>Your Gateway to <span>Crypto</span><br/>in Saudi Arabia</h1>
+
+  <p>
+    Join thousands of investors securing their spot in the future of digital assets.
+    Early booking now open for exclusive packages.
+  </p>
+
+  <div class="hero-btns">
+    <a href="book.html" class="btn-primary">Book Your Spot →</a>
+    <a href="status.html" class="btn-secondary">Check Booking Status</a>
+  </div>
+
+  <div class="trust">
+    <span>👥 1,000+ Early Bookers</span>
+    <span>⭐ 4.9/5 Trust Score</span>
+    <span>🔒 100% Secure</span>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+  <h2>Why Choose <span style="color:var(--accent1)">CryptoSA</span></h2>
+  <p>Trusted by investors across Saudi Arabia</p>
+
+  <div class="grid">
+    <div class="card"><div class="icon">🛡</div><h3>Secure & Compliant</h3><p>Saudi regulatory compliant security protocols</p></div>
+    <div class="card"><div class="icon">⚡</div><h3>Fast Processing</h3><p>Quick booking confirmation and onboarding</p></div>
+    <div class="card"><div class="icon">🎧</div><h3>Dedicated Support</h3><p>24/7 expert assistance</p></div>
+    <div class="card"><div class="icon">🌍</div><h3>Global Access</h3><p>International crypto markets access</p></div>
+    <div class="card"><div class="icon">🔐</div><h3>Asset Protection</h3><p>Multi-layer digital asset security</p></div>
+    <div class="card"><div class="icon">📈</div><h3>Expert Guidance</h3><p>Professional market insights</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="logo"><span>C</span>CryptoSA</div>
+      <p>Your trusted partner for cryptocurrency services in Saudi Arabia.</p>
+      <p style="margin-top:10px;color:var(--accent1)">Saudi Regulatory Compliant</p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4><br/>
+      <a href="book.html">Book Now</a>
+      <a href="status.html">Check Status</a>
+      <a href="admin.html">Admin Portal</a>
+    </div>
+
+    <div>
+      <h4>Contact</h4><br/>
+      <p>📧 support@cryptosa.sa</p>
+      <p>📞 +966 XX XXXX XXXX</p>
+      <p>📍 Riyadh, Saudi Arabia</p>
+    </div>
+  </div>
+
+  <div class="copy">© 2025 CryptoSA. All rights reserved.</div>
+</footer>
+
+<script>
+const end = new Date().getTime() + 3*24*60*60*1000;
+setInterval(()=>{
+  const now = new Date().getTime();
+  let t = end - now;
+  document.getElementById("d").innerText = Math.floor(t/(1000*60*60*24));
+  document.getElementById("h").innerText = Math.floor((t/(1000*60*60))%24);
+  document.getElementById("m").innerText = Math.floor((t/(1000*60))%60);
+  document.getElementById("s").innerText = Math.floor((t/1000)%60);
+},1000);
+</script>
+<script>
+const symbols = ["$", "₿", "◇", "◈", "⧫"];
+const layer = document.getElementById("crypto-float-layer");
+
+for(let i=0;i<30;i++){
+  const el = document.createElement("div");
+  el.className = "crypto-symbol";
+  el.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+  el.style.left = Math.random()*100 + "vw";
+  el.style.animationDuration = 12 + Math.random()*15 + "s";
+  el.style.fontSize = 14 + Math.random()*22 + "px";
+  layer.appendChild(el);
+}
+</script>
+
+<script>
+document.querySelectorAll(".btn-primary").forEach(btn=>{
+  btn.addEventListener("mousemove", e=>{
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width/2;
+    const y = e.clientY - rect.top - rect.height/2;
+    btn.style.transform = `translate(${x*0.15}px,${y*0.15}px)`;
+  });
+  btn.addEventListener("mouseleave",()=>{
+    btn.style.transform="translate(0,0)";
+  });
+});
+</script>
+
+<script>
+document.querySelectorAll(".card").forEach(card=>{
+  card.addEventListener("mousemove", e=>{
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `rotateX(${-y*6}deg) rotateY(${x*6}deg) translateY(-6px)`;
+  });
+  card.addEventListener("mouseleave",()=>{
+    card.style.transform="none";
+  });
+});
+</script>
+<script>
+document.addEventListener("mousemove", e=>{
+  const x = (e.clientX/window.innerWidth - .5)*20;
+  const y = (e.clientY/window.innerHeight - .5)*20;
+  document.querySelector(".hero").style.transform =
+    `translate(${x}px,${y}px)`;
+});
+</script>
+
+<script>
+const glow = document.getElementById("cursor-glow");
+
+document.addEventListener("mousemove", e => {
+  glow.style.left = e.clientX + "px";
+  glow.style.top  = e.clientY + "px";
+});
+</script>
+
+
+<script>
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("navLinks");
+
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("show");
+  hamburger.classList.toggle("active");
+});
+
+// Close menu when clicking a link
+document.querySelectorAll(".nav-links a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    navLinks.classList.remove("show");
+    hamburger.classList.remove("active");
+  });
+});
+</script>
+
+
+</body>
+</html>
