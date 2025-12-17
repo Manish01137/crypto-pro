@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <h2>Moonbeam Admin</h2>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard">
+    <h3>Bookings</h3>
+
+    <table id="bookingTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be injected here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="js/adminAuth.js"></script>
+  <script src="js/adminDashboard.js"></script>
+</body>
+</html>

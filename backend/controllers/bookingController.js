@@ -51,3 +51,47 @@ exports.getBookingById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+// ================================
+// ADMIN: GET ALL BOOKINGS
+// ================================
+exports.getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ================================
+// ADMIN: UPDATE BOOKING STATUS
+// ================================
+exports.updateBookingStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!["pending", "approved", "rejected"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Booking status updated",
+      booking
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

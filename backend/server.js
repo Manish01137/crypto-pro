@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bookingRoutes = require("./routes/bookingRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 require("dotenv").config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 connectDB();
 
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 app.get("/", (req, res) => {
