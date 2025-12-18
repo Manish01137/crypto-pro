@@ -478,3 +478,316 @@ form button {
   background: linear-gradient(135deg,#2ef2c5,#4f7cff);
   color: #000;
 }
+
+/* =========================
+   BOOKING SECTION
+========================= */
+.booking {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: auto;
+  color: #fff;
+}
+
+.booking h1 {
+  text-align: center;
+  font-size: 3rem;
+}
+
+.booking h1 span {
+  background: linear-gradient(90deg, #00f5ff, #9b5cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  max-width: 600px;
+  margin: 12px auto 40px;
+  opacity: 0.85;
+  font-size: 1rem;
+}
+
+/* =========================
+   STEPS
+========================= */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.step.active {
+  background: linear-gradient(135deg, #00f5ff, #9b5cff);
+  border: none;
+}
+
+.line {
+  width: 50px;
+  height: 2px;
+  background: #333;
+}
+
+/* =========================
+   CARDS
+========================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(0,245,255,0.15);
+}
+
+.card h3 {
+  font-size: 1.4rem;
+}
+
+.card h2 {
+  margin: 16px 0;
+  font-size: 2rem;
+  color: #00f5ff;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.card ul li {
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+.card.popular {
+  border: 2px solid #9b5cff;
+  box-shadow: 0 0 30px rgba(155,92,255,0.25);
+}
+
+/* =========================
+   BUTTON
+========================= */
+.continue {
+  margin: 40px auto 0;
+  display: block;
+  padding: 14px 36px;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00f5ff, #9b5cff);
+  color: #000;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.continue:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   FORM
+========================= */
+#step2 form {
+  max-width: 420px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+#step2 input {
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 1rem;
+}
+
+#step2 input::placeholder {
+  color: #aaa;
+}
+
+#step2 button {
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00f5ff, #9b5cff);
+  font-weight: 600;
+}
+
+/* =========================
+   STEP VISIBILITY
+========================= */
+.step-content {
+  display: none;
+}
+
+.step-content.active {
+  display: block;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+========================= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .booking h1 {
+    font-size: 2.4rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    transform: scale(0.9);
+  }
+
+  .booking {
+    padding: 60px 16px;
+  }
+
+  .booking h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .card h2 {
+    font-size: 1.8rem;
+  }
+}
+/* ======================
+   NAVBAR BASE
+====================== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: rgba(10, 12, 20, 0.9);
+  backdrop-filter: blur(14px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00f5ff, #9b5cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 28px;
+}
+
+.navbar nav a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.navbar nav a.active {
+  color: #00f5ff;
+}
+
+.nav-btn {
+  padding: 10px 22px;
+  border-radius: 22px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00f5ff, #9b5cff);
+  font-weight: 600;
+}
+
+/* ======================
+   MOBILE RESPONSIVE
+====================== */
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+  }
+
+  .navbar nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .navbar nav a {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .nav-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+  }
+}
+
+/* EXTRA SMALL PHONES */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .navbar nav a {
+    font-size: 0.9rem;
+  }
+}
