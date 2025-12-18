@@ -24,15 +24,12 @@ router.get("/:id", getBookingById);
 router.get("/", auth, adminOnly, getAllBookings);
 router.put("/:id", auth, adminOnly, updateBookingStatus);
 
-module.exports = router;
-
-
 // CHECK BOOKING STATUS
 router.get("/status/:bookingId", async (req, res) => {
   try {
-    const bookingId = req.params.bookingId;
+    const bookingId = req.params.bookingId.trim();
 
-    // Find booking in DB
+
     const booking = await Booking.findOne({ bookingId });
 
     if (!booking) {
@@ -42,12 +39,10 @@ router.get("/status/:bookingId", async (req, res) => {
       });
     }
 
-    // Send status
     res.json({
       success: true,
       status: booking.status || "Confirmed"
     });
-
   } catch (error) {
     console.error("Status check error:", error);
     res.status(500).json({
@@ -56,3 +51,5 @@ router.get("/status/:bookingId", async (req, res) => {
     });
   }
 });
+
+module.exports = router;

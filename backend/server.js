@@ -22,11 +22,16 @@ app.use(cors({
   origin: [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://crypto-pro-1-efyw.onrender.com" // 👈 ADD THIS
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"]
 }));
+
+
+
+
 
 app.use(express.json());
 
