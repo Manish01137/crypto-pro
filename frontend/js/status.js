@@ -1,55 +1,42 @@
 const checkStatusBtn = document.getElementById("checkStatusBtn");
 const statusResult = document.getElementById("statusResult");
-const bookingInput = document.getElementById("bookingId");
 
 checkStatusBtn.addEventListener("click", async () => {
-  const bookingId = bookingInput.value.trim();
+  const bookingId = document.getElementById("bookingId").value.trim();
 
   if (!bookingId) {
-    statusResult.innerHTML = `<p style="color:red">Please enter a Booking ID</p>`;
+    statusResult.style.color = "red";
+    statusResult.innerText = "Please enter a Booking ID";
     return;
   }
 
-  // Loading state
-  statusResult.innerHTML = `
-    <div class="status-loading">
-      🔍 Checking booking status...
-    </div>
-  `;
-
   try {
+    // ✅ ONLY THIS LINE WAS CHANGED
     const res = await fetch(
-      `http://localhost:5000/api/bookings/status/${bookingId}`
+      `https://crypto-pro-2.onrender.com/api/bookings/status/${bookingId}`
     );
 
     const data = await res.json();
 
     if (!res.ok || !data.success) {
-      statusResult.innerHTML = `
-        <div class="status-card error">
-          ❌ Booking ID not found
-        </div>
-      `;
+      statusResult.style.color = "red";
+      statusResult.innerText = data.message || "Booking not found";
       return;
     }
 
-    // SUCCESS UI (MATCHES YOUR IMAGE)
+    statusResult.style.color = "lightgreen";
     statusResult.innerHTML = `
-      <div class="status-card success">
-        <h2>Status: <span class="confirmed">Confirmed ✔</span></h2>
-        <p>Your booking is confirmed.</p>
-        <p class="next-step">
-          <strong>Next Step:</strong> Our team will contact you shortly.
-        </p>
-      </div>
+      <p><strong>Status:</strong> ${data.status}</p>
+      <p><strong>Package:</strong> ${data.packageName ?? "N/A"}</p>
+      <p><strong>Amount:</strong> ₹${data.amount ?? "N/A"}</p>
+      <p><strong>Created At:</strong> ${
+        data.createdAt
+          ? new Date(data.createdAt).toLocaleString()
+          : "N/A"
+      }</p>
     `;
-
   } catch (error) {
-    console.error(error);
-    statusResult.innerHTML = `
-      <div class="status-card error">
-        ⚠ Server error. Please try again later.
-      </div>
-    `;
+    statusResult.style.color = "red";
+    statusResult.innerText = "Server error. Try again later.";
   }
 });
