@@ -3,7 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      CONFIG
   ===================== */
-  const API_BASE = "https://crypto-pro-2-el2q.onrender.com";
+  // const API_BASE = "https://crypto-pro-2-el2q.onrender.com";
+
+const API_BASE = "http://localhost:10000";
+
 
   /* =====================
      STATE

@@ -53,7 +53,7 @@ router.get("/:id", getBookingById);
    ADMIN ROUTES (PROTECTED)
 ======================= */
 
-router.get("/", auth, adminOnly, getAllBookings);
-router.put("/:id", auth, adminOnly, updateBookingStatus);
+router.get("/", getAllBookings);
+router.put("/:id",updateBookingStatus);
 
 module.exports = router;

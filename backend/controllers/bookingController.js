@@ -80,10 +80,7 @@ exports.getBookingById = async (req, res) => {
 exports.getAllBookings = async (req, res) => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });
-    res.json({
-      success: true,
-      bookings
-    });
+    res.json(bookings);
   } catch (error) {
     console.error("Get all bookings error:", error);
     res.status(500).json({

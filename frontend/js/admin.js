@@ -17,7 +17,7 @@ document.getElementById("adminLoginForm").addEventListener("submit", async (e) =
   if (data.token) {
     localStorage.setItem("adminToken", data.token);
     alert("Admin login successful");
-    window.location.href = "status.html";
+    window.location.href = "admin.html";
   } else {
     alert(data.message || "Login failed");
   }

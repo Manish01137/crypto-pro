@@ -49,3 +49,4 @@ async function sendMessage() {
   const data = await res.json();
   addMessage(data.reply, "bot");
 }
+

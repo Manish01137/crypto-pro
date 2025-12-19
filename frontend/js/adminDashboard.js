@@ -1,3 +1,6 @@
+console.log("✅ adminDashboard.js loaded");
+
+const API_BASE = "http://localhost:5000";
 const token = localStorage.getItem("adminToken");
 const table = document.getElementById("bookingTable");
 
@@ -19,35 +22,89 @@ function showSkeleton() {
 /* =========================
    LOAD BOOKINGS (SAFE)
 ========================= */
+
+// async function loadBookings() {
+//   showSkeleton();
+
+//   try {
+//     const res = await fetch("http://localhost:5000/api/bookings", {
+//       headers: {
+//         Authorization: "Bearer " + token
+//       }
+//     });
+
+//     if (!res.ok) {
+//       renderBookings([]);
+//       return;
+//     }
+
+//     const data = await res.json();
+
+//     // ✅ THIS IS THE FIX
+//     allBookings = Array.isArray(data) ? data : data.bookings;
+
+//     const statusFilter = document.getElementById("statusFilter");
+//     if (statusFilter) statusFilter.value = "all";
+
+//     renderBookings(allBookings);
+
+//   } catch (err) {
+//     renderBookings([]);
+//   }
+// }
+
+
+
 async function loadBookings() {
+  console.log("🚀 loadBookings called");
   showSkeleton();
 
   try {
-    const res = await fetch("http://localhost:5000/api/bookings", {
-      headers: {
-        Authorization: "Bearer " + token
-      }
-    });
+    const res = await fetch(`${API_BASE}/api/bookings`);
+    const data = await res.json();
 
-    // If backend responds but not OK (401, 403, 500)
-    if (!res.ok) {
-      renderBookings([]);
-      return;
-    }
+    console.log("📦 bookings from API:", data);
 
-    allBookings = await res.json();
-
-    // Reset status filter on reload
-    const statusFilter = document.getElementById("statusFilter");
-    if (statusFilter) statusFilter.value = "all";
-
+    allBookings = data;
     renderBookings(allBookings);
 
   } catch (err) {
-    // Backend down / network issue
+    console.error("Load bookings error:", err);
     renderBookings([]);
   }
 }
+
+
+
+// async function loadBookings() {
+//   showSkeleton();
+
+//   try {
+//     const res = await fetch("http://localhost:5000/api/bookings", {
+//       headers: {
+//         Authorization: "Bearer " + token
+//       }
+//     });
+
+//     // If backend responds but not OK (401, 403, 500)
+//     if (!res.ok) {
+//       renderBookings([]);
+//       return;
+//     }
+
+//     allBookings = await res.json();
+
+//     // Reset status filter on reload
+//     const statusFilter = document.getElementById("statusFilter");
+//     if (statusFilter) statusFilter.value = "all";
+
+//     renderBookings(allBookings);
+
+//   } catch (err) {
+//     // Backend down / network issue
+//     renderBookings([]);
+//   }
+// }
 
 /* =========================
    RENDER BOOKINGS
@@ -87,9 +144,10 @@ function renderBookings(bookings) {
             Confirmed
           </option>
           <option value="rejected" ${b.status === "rejected" ? "selected" : ""}>
-            Rejected
+            Cancelled
           </option>
         </select>
+
       </td>
     `;
 
@@ -100,18 +158,21 @@ function renderBookings(bookings) {
 /* =========================
    UPDATE STATUS (OPTIMISTIC)
 ========================= */
+
 async function updateStatus(id, status) {
   try {
-    const res = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+    const res = await fetch(`${API_BASE}/api/bookings/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ status })
     });
 
-    if (!res.ok) return;
+    if (!res.ok) {
+      console.error("Failed to update status");
+      return;
+    }
 
     // Optimistic UI update
     allBookings = allBookings.map(b =>
@@ -121,9 +182,11 @@ async function updateStatus(id, status) {
     applyFilters();
 
   } catch (err) {
-    // Silent fail (no alert, no panic)
+    console.error("Update status error:", err);
   }
 }
+
+
 
 /* =========================
    FILTERS (SEARCH + STATUS)
