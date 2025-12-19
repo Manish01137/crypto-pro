@@ -1,30 +1,30 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
   sender: {
-    type: String,
-    enum: ["user", "admin"],
+    type: String, // "user" | "admin"
     required: true
   },
   text: {
     type: String,
     required: true
   },
-  createdAt: {
+  time: {
     type: Date,
     default: Date.now
   }
 });
 
-const supportSchema = new mongoose.Schema(
-  {
-    userEmail: {
-      type: String,
-      required: true
-    },
-    messages: [messageSchema]
+const supportSchema = new mongoose.Schema({
+  bookingId: {
+    type: String,
+    required: true
   },
-  { timestamps: true }
-);
+  messages: [messageSchema],
+  status: {
+    type: String,
+    default: "open" // open | closed
+  }
+}, { timestamps: true });
 
-module.exports = mongoose.model("Support", supportSchema);
+export default mongoose.model("Support", supportSchema);

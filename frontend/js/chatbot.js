@@ -1,13 +1,16 @@
+const API = "http://localhost:10000";
+
+/* ================= ELEMENTS ================= */
 const fab = document.getElementById("chat-fab");
 const panel = document.getElementById("chat-panel");
 const closeBtn = document.getElementById("chat-close");
 
+const bookingInput = document.querySelector(".chat-content input");
 const inputBox = document.querySelector(".chat-input input");
 const sendBtn = document.querySelector(".chat-input button");
 const chatBody = document.querySelector(".chat-content");
 
-let bookingId = "";
-
+/* ================= TOGGLE ================= */
 fab.onclick = () => panel.style.display = "flex";
 closeBtn.onclick = () => panel.style.display = "none";
 
@@ -16,37 +19,63 @@ inputBox.addEventListener("keypress", e => {
   if (e.key === "Enter") sendMessage();
 });
 
-function addMessage(text, type = "user") {
+/* ================= UI ================= */
+function addMessage(text, sender = "user") {
   const msg = document.createElement("div");
   msg.style.margin = "8px 0";
-  msg.style.textAlign = type === "user" ? "right" : "left";
-  msg.innerHTML = `<span style="
-      background:#0f172a;
+  msg.style.textAlign = sender === "user" ? "right" : "left";
+
+  msg.innerHTML = `
+    <span style="
+      background:${sender === "user" ? "#0f172a" : "#111827"};
       padding:8px 12px;
       border-radius:12px;
       display:inline-block;
       color:white;
-  ">${text}</span>`;
+      max-width:80%;
+    ">
+      ${text}
+    </span>
+  `;
   chatBody.appendChild(msg);
   chatBody.scrollTop = chatBody.scrollHeight;
 }
 
+/* ================= SEND MESSAGE ================= */
 async function sendMessage() {
-  const message = inputBox.value.trim();
-  if (!message) return;
+  const text = inputBox.value.trim();
+  const bookingId = bookingInput.value.trim();
 
-  addMessage(message, "user");
+  if (!bookingId) {
+    alert("Please enter Booking ID first");
+    return;
+  }
+
+  if (!text) return;
+
+  addMessage(text, "user");
   inputBox.value = "";
 
-  if (message.startsWith("CRY-")) bookingId = message;
-
-  const res = await fetch("http://localhost:5000/api/chatbot/chat", {
+  await fetch(`${API}/api/support/send`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, bookingId })
+    body: JSON.stringify({ bookingId, text })
   });
-
-  const data = await res.json();
-  addMessage(data.reply, "bot");
 }
 
+/* ================= FETCH ADMIN REPLIES ================= */
+async function loadMessages() {
+  const bookingId = bookingInput.value.trim();
+  if (!bookingId) return;
+
+  const res = await fetch(`${API}/api/support/${bookingId}`);
+  const data = await res.json();
+
+  chatBody.innerHTML = "";
+  data.messages.forEach(m => {
+    addMessage(m.text, m.sender);
+  });
+}
+
+/* AUTO REFRESH */
+setInterval(loadMessages, 3000);

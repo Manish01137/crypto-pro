@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 const bookingRoutes = require("./routes/bookingRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const chatbotRoutes = require("./routes/chatbotRoutes");
+const supportRoutes = require("./routes/supportRoutes");
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
    credentials: true
 }));
-app.options("*", cors());
+app.options("/*", cors());
 
 app.use(express.json());
 
@@ -40,7 +41,7 @@ app.use(express.json());
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/chatbot", chatbotRoutes);
-app.use("/api/support", require("./routes/support"));
+app.use("/api/support", supportRoutes);
 
 
 /* =====================
