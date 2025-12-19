@@ -41,7 +41,6 @@
 //   }
 // });
 
-
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =====================
@@ -56,6 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusResult = document.getElementById("statusResult");
   const bookingIdInput = document.getElementById("bookingId");
 
+  if (!checkStatusBtn || !statusResult || !bookingIdInput) {
+    console.error("Status page elements missing");
+    return;
+  }
+
   /* =====================
      CHECK STATUS
   ===================== */
@@ -68,18 +72,19 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // UI feedback
+    // Loading state
     statusResult.style.color = "#ccc";
     statusResult.innerText = "Checking status...";
 
     try {
+      // ✅ CORRECT API ROUTE
       const res = await fetch(
-        `${API_BASE}/api/bookings/status/${bookingId}`
+        `${API_BASE}/api/bookings/${bookingId}`
       );
 
       const data = await res.json();
 
-      if (!res.ok || !data.success) {
+      if (!res.ok) {
         statusResult.style.color = "red";
         statusResult.innerText = data.message || "Booking not found";
         return;
@@ -88,9 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // ✅ SUCCESS
       statusResult.style.color = "lightgreen";
       statusResult.innerHTML = `
-        <p><strong>Status:</strong> ${data.status}</p>
-        <p><strong>Package:</strong> ${data.packageName ?? "N/A"}</p>
-        <p><strong>Amount:</strong> ₹${data.amount ?? "N/A"}</p>
+        <p><strong>Status:</strong> ${data.status || "Pending"}</p>
+        <p><strong>Package:</strong> ${data.packageName || "N/A"}</p>
+        <p><strong>Amount:</strong> ₹${data.amount || "N/A"}</p>
         <p><strong>Created At:</strong> ${
           data.createdAt
             ? new Date(data.createdAt).toLocaleString()
