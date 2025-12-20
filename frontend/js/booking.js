@@ -8,15 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      STATE
   ===================== */
-  let selectedPackage = "";
   let amount = 0;
   let userData = {};
 
   /* =====================
      ELEMENTS
   ===================== */
-  const cards = document.querySelectorAll(".card");
-
   const step1 = document.getElementById("step1");
   const step2 = document.getElementById("step2");
   const step3 = document.getElementById("step3");
@@ -29,16 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const bookingIdBox = document.querySelector(".booking-id");
 
-  /* =====================
-     PACKAGE SELECTION (STEP 1)
-  ===================== */
-  cards.forEach(card => {
-    card.addEventListener("click", () => {
-      cards.forEach(c => c.classList.remove("selected"));
-      card.classList.add("selected");
+  const amountInput = document.getElementById("purchaseAmount");
+  const presetButtons = document.querySelectorAll(".amount-presets button");
 
-      selectedPackage = card.dataset.package;
-      amount = Number(card.dataset.amount);
+  /* =====================
+     PRESET BUTTONS
+  ===================== */
+  presetButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      amountInput.value = btn.dataset.value;
     });
   });
 
@@ -46,8 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
      GO TO STEP 2
   ===================== */
   continueBtn.addEventListener("click", () => {
-    if (!selectedPackage || !amount) {
-      alert("Please select a package first");
+    amount = Number(amountInput.value);
+
+    if (!amount || amount < 200 || amount > 15000) {
+      alert("Please enter an amount between $200 and $15,000");
       return;
     }
 
@@ -72,8 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     userData = { name, email, phone };
 
-    document.getElementById("confirmPackage").innerText = selectedPackage;
-    document.getElementById("confirmPrice").innerText = `₹${amount}`;
+    document.getElementById("confirmPackage").innerText = "Custom Amount";
+    document.getElementById("confirmPrice").innerText = `$${amount}`;
     document.getElementById("confirmName").innerText = name;
     document.getElementById("confirmEmail").innerText = email;
     document.getElementById("confirmPhone").innerText = phone;
@@ -97,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   finalConfirmBtn.addEventListener("click", async () => {
 
-    // prevent double click
     finalConfirmBtn.disabled = true;
     finalConfirmBtn.innerText = "Booking...";
 
@@ -111,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
           name: userData.name,
           email: userData.email,
           phone: userData.phone,
-          packageName: selectedPackage,
+          packageName: "Custom", // backend compatibility
           amount
         })
       });
@@ -122,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(data.message || "Booking failed");
       }
 
-      // ✅ SUCCESS
       if (bookingIdBox) bookingIdBox.style.display = "flex";
       document.getElementById("confirmBookingId").innerText =
         data.bookingId || "Generated";
