@@ -1953,37 +1953,6 @@ body {
 
   .hamburger {
     display: flex;
-#nav-toggle {
-  display: none;
-}
-
-/* Hamburger icon */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.hamburger span {
-  width: 26px;
-  height: 3px;
-  background: #00eaff;
-  border-radius: 4px;
-  transition: 0.3s;
-}
-
-/* Desktop */
-.nav-links {
-  display: flex;
-  gap: 24px;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-
-  .hamburger {
-    display: flex;
   }
 
   .nav-links {

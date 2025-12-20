@@ -50,11 +50,10 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 ===================== */
 app.use("/api/bookings", bookingRoutes);
 // ADMIN LOGIN (PUBLIC)
-app.use("/api/admin", require("./routes/adminAuth"));
+
 
 // ADMIN DASHBOARD / ACTIONS (PROTECTED)
-app.use("/api/admin", require("./routes/adminRoutes"));
-
+app.use("/api/admin", adminAuthRoutes);
 app.use("/api/chat", chatbotRoutes);
 app.use("/api/support", supportRoutes);
 
