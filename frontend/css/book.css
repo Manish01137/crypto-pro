@@ -791,3 +791,292 @@ form button {
     font-size: 0.9rem;
   }
 }
+/* ===============================
+   BOOKING SECTION
+================================ */
+.booking {
+  padding: 90px 20px;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+.booking h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.booking h1 span {
+  background: linear-gradient(90deg, #7affd6, #7aa2ff, #b07cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.booking .subtitle {
+  color: rgba(255,255,255,0.7);
+  max-width: 650px;
+  margin: 0 auto 50px;
+  font-size: 15px;
+}
+
+/* ===============================
+   STEPS INDICATOR
+================================ */
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 50px;
+}
+
+.step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.step.active {
+  background: linear-gradient(90deg, #7affd6, #7aa2ff);
+  color: #0b1220;
+}
+
+.line {
+  width: 50px;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+
+/* ===============================
+   STEP CONTENT
+================================ */
+.step-content {
+  display: none;
+  animation: fadeUp 0.6s ease;
+}
+
+.step-content.active {
+  display: block;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   STEP 1 – AMOUNT SELECT
+================================ */
+.amount-title {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.amount-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 30px;
+}
+
+/* Amount input */
+.amount-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  max-width: 340px;
+  margin: 0 auto 24px;
+  transition: all 0.35s ease;
+}
+
+.amount-box:hover {
+  border-color: rgba(122,162,255,0.6);
+  box-shadow: 0 0 30px rgba(180,120,255,0.25);
+}
+
+.amount-box span {
+  font-size: 22px;
+  color: #7aa2ff;
+}
+
+.amount-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 24px;
+  width: 100%;
+}
+
+/* Preset buttons */
+.amount-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+
+.amount-presets button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.amount-presets button:hover {
+  background: linear-gradient(90deg, #7affd6, #7aa2ff, #b07cff);
+  color: #0b1220;
+  box-shadow:
+    0 0 20px rgba(122,255,214,0.35),
+    0 0 40px rgba(180,120,255,0.25);
+}
+
+/* ===============================
+   CONTINUE BUTTON
+================================ */
+.continue {
+  padding: 14px 32px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7affd6, #7aa2ff, #b07cff);
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #0b1220;
+  transition: all 0.35s ease;
+}
+
+.continue:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 40px rgba(122,255,214,0.4),
+    0 0 50px rgba(180,120,255,0.3);
+}
+
+/* ===============================
+   STEP 2 FORM
+================================ */
+#bookingForm {
+  max-width: 420px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#bookingForm input {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+#bookingForm input:focus {
+  border-color: rgba(122,162,255,0.6);
+  box-shadow: 0 0 18px rgba(122,162,255,0.3);
+}
+
+#bookingForm button {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  background: linear-gradient(90deg, #7affd6, #7aa2ff);
+  cursor: pointer;
+}
+
+/* ===============================
+   STEP 3 CONFIRM
+================================ */
+.confirm-box {
+  max-width: 420px;
+  margin: 30px auto;
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  text-align: left;
+}
+
+.confirm-box p {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: rgba(255,255,255,0.85);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.confirm-actions button {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#backToStep2 {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+#finalConfirm {
+  background: linear-gradient(90deg, #7affd6, #7aa2ff);
+  color: #0b1220;
+}
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .booking h1 {
+    font-size: 32px;
+  }
+
+  .amount-title {
+    font-size: 24px;
+  }
+
+  .steps {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .amount-box {
+    max-width: 100%;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+  }
+}
