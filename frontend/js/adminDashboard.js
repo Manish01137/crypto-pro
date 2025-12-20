@@ -1,13 +1,20 @@
 console.log("✅ adminDashboard.js loaded");
 
-const API_BASE = "http://localhost:5000";
+/* =========================
+   CONFIG
+========================= */
+const API_BASE = ""; // IMPORTANT: works for both local & Render
 const adminToken = localStorage.getItem("adminToken");
 
 if (!adminToken) {
   window.location.replace("admin-login.html");
 }
 
-
+/* =========================
+   GLOBALS
+========================= */
+const table = document.querySelector("#bookingTable tbody");
+let allBookings = [];
 
 /* =========================
    SKELETON LOADING
@@ -32,7 +39,7 @@ async function loadBookings() {
   try {
     const res = await fetch(`${API_BASE}/api/bookings`, {
       headers: {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + adminToken
       }
     });
 
@@ -49,7 +56,7 @@ async function loadBookings() {
     renderBookings(allBookings);
 
   } catch (err) {
-    console.error("Load bookings error:", err);
+    console.error("❌ Load bookings error:", err);
     renderBookings([]);
   }
 }
@@ -85,15 +92,9 @@ function renderBookings(bookings) {
       <td>${new Date(b.createdAt).toLocaleDateString()}</td>
       <td>
         <select class="action" onchange="updateStatus('${b._id}', this.value)">
-          <option value="pending" ${b.status === "pending" ? "selected" : ""}>
-            Pending
-          </option>
-          <option value="approved" ${b.status === "approved" ? "selected" : ""}>
-            Confirmed
-          </option>
-          <option value="rejected" ${b.status === "rejected" ? "selected" : ""}>
-            Cancelled
-          </option>
+          <option value="pending" ${b.status === "pending" ? "selected" : ""}>Pending</option>
+          <option value="approved" ${b.status === "approved" ? "selected" : ""}>Confirmed</option>
+          <option value="rejected" ${b.status === "rejected" ? "selected" : ""}>Cancelled</option>
         </select>
       </td>
     `;
@@ -111,7 +112,7 @@ async function updateStatus(id, status) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + adminToken
       },
       body: JSON.stringify({ status })
     });
@@ -121,7 +122,6 @@ async function updateStatus(id, status) {
       return;
     }
 
-    // Optimistic UI update
     allBookings = allBookings.map(b =>
       b._id === id ? { ...b, status } : b
     );
@@ -129,7 +129,7 @@ async function updateStatus(id, status) {
     applyFilters();
 
   } catch (err) {
-    console.error("Update status error:", err);
+    console.error("❌ Update status error:", err);
   }
 }
 
@@ -162,14 +162,7 @@ function applyFilters() {
 function exportCSV() {
   if (!allBookings.length) return;
 
-  const headers = [
-    "Booking ID",
-    "Name",
-    "Email",
-    "Phone",
-    "Status",
-    "Created"
-  ];
+  const headers = ["Booking ID", "Name", "Email", "Phone", "Status", "Created"];
 
   const rows = allBookings.map(b => [
     b.bookingId,
@@ -181,9 +174,7 @@ function exportCSV() {
   ]);
 
   let csv = headers.join(",") + "\n";
-  rows.forEach(r => {
-    csv += r.join(",") + "\n";
-  });
+  rows.forEach(r => csv += r.join(",") + "\n");
 
   const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
@@ -204,7 +195,6 @@ function logout() {
   localStorage.removeItem("adminToken");
   window.location.replace("admin-login.html");
 }
-
 
 /* =========================
    INIT
