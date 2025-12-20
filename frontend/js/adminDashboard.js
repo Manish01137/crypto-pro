@@ -1,10 +1,13 @@
 console.log("✅ adminDashboard.js loaded");
 
 const API_BASE = "http://localhost:5000";
-const token = localStorage.getItem("adminToken");
-const table = document.getElementById("bookingTable");
+const adminToken = localStorage.getItem("adminToken");
 
-let allBookings = [];
+if (!adminToken) {
+  window.location.replace("admin-login.html");
+}
+
+
 
 /* =========================
    SKELETON LOADING
@@ -20,49 +23,26 @@ function showSkeleton() {
 }
 
 /* =========================
-   LOAD BOOKINGS (SAFE)
+   LOAD BOOKINGS (ADMIN)
 ========================= */
-
-// async function loadBookings() {
-//   showSkeleton();
-
-//   try {
-//     const res = await fetch("http://localhost:5000/api/bookings", {
-//       headers: {
-//         Authorization: "Bearer " + token
-//       }
-//     });
-
-//     if (!res.ok) {
-//       renderBookings([]);
-//       return;
-//     }
-
-//     const data = await res.json();
-
-//     // ✅ THIS IS THE FIX
-//     allBookings = Array.isArray(data) ? data : data.bookings;
-
-//     const statusFilter = document.getElementById("statusFilter");
-//     if (statusFilter) statusFilter.value = "all";
-
-//     renderBookings(allBookings);
-
-//   } catch (err) {
-//     renderBookings([]);
-//   }
-// }
-
-
-
 async function loadBookings() {
   console.log("🚀 loadBookings called");
   showSkeleton();
 
   try {
-    const res = await fetch(`${API_BASE}/api/bookings`);
-    const data = await res.json();
+    const res = await fetch(`${API_BASE}/api/bookings`, {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    });
 
+    if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem("adminToken");
+      window.location.href = "admin-login.html";
+      return;
+    }
+
+    const data = await res.json();
     console.log("📦 bookings from API:", data);
 
     allBookings = data;
@@ -73,38 +53,6 @@ async function loadBookings() {
     renderBookings([]);
   }
 }
-
-
-
-// async function loadBookings() {
-//   showSkeleton();
-
-//   try {
-//     const res = await fetch("http://localhost:5000/api/bookings", {
-//       headers: {
-//         Authorization: "Bearer " + token
-//       }
-//     });
-
-//     // If backend responds but not OK (401, 403, 500)
-//     if (!res.ok) {
-//       renderBookings([]);
-//       return;
-//     }
-
-//     allBookings = await res.json();
-
-//     // Reset status filter on reload
-//     const statusFilter = document.getElementById("statusFilter");
-//     if (statusFilter) statusFilter.value = "all";
-
-//     renderBookings(allBookings);
-
-//   } catch (err) {
-//     // Backend down / network issue
-//     renderBookings([]);
-//   }
-// }
 
 /* =========================
    RENDER BOOKINGS
@@ -147,7 +95,6 @@ function renderBookings(bookings) {
             Cancelled
           </option>
         </select>
-
       </td>
     `;
 
@@ -156,21 +103,21 @@ function renderBookings(bookings) {
 }
 
 /* =========================
-   UPDATE STATUS (OPTIMISTIC)
+   UPDATE STATUS (ADMIN)
 ========================= */
-
 async function updateStatus(id, status) {
   try {
-    const res = await fetch(`${API_BASE}/api/bookings/${id}`, {
+    const res = await fetch(`${API_BASE}/api/bookings/${id}/status`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
       },
       body: JSON.stringify({ status })
     });
 
     if (!res.ok) {
-      console.error("Failed to update status");
+      console.error("❌ Failed to update status");
       return;
     }
 
@@ -186,10 +133,8 @@ async function updateStatus(id, status) {
   }
 }
 
-
-
 /* =========================
-   FILTERS (SEARCH + STATUS)
+   FILTERS
 ========================= */
 function applyFilters() {
   const searchInput = document.getElementById("searchInput");
@@ -255,12 +200,14 @@ function exportCSV() {
    LOGOUT
 ========================= */
 function logout() {
+  console.log("🚪 Logging out...");
   localStorage.removeItem("adminToken");
-  window.location.href = "index.html";
+  window.location.replace("admin-login.html");
 }
 
+
 /* =========================
-   INIT + AUTO REFRESH
+   INIT
 ========================= */
 loadBookings();
-setInterval(loadBookings, 30000); // auto refresh every 30s
+setInterval(loadBookings, 30000);

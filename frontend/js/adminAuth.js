@@ -1,22 +1,22 @@
-// Check if admin is logged in
-const token = localStorage.getItem("adminToken");
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-if (!token) {
-  // Not logged in → redirect to login
-  window.location.href = "index.html";
-}
-fetch("http://localhost:5000/api/admin/dashboard", {
-  headers: {
-    Authorization: "Bearer " + token
-  }
-})
-  .then(res => {
-    if (!res.ok) {
-      localStorage.removeItem("adminToken");
-      window.location.href = "index.html";
-    }
-  })
-  .catch(() => {
-    localStorage.removeItem("adminToken");
-    window.location.href = "index.html";
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch("http://localhost:5000/api/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
   });
+
+  const data = await res.json();
+
+  if (data.success) {
+    localStorage.setItem("adminToken", data.token);
+    window.location.href = "admin.html";
+  } else {
+    document.getElementById("error").innerText =
+      "Invalid admin credentials";
+  }
+});

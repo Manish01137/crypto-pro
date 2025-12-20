@@ -1,3 +1,11 @@
+<script>
+const token = localStorage.getItem("adminToken");
+if (!token) {
+  window.location.href = "/admin-login.html";
+}
+</script>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +45,9 @@
       </div>
 
       <div class="profile">
-        <span id="adminEmail">admin@cryptosa.com</span>
-        <button onclick="logout()">Sign Out</button>
+        <span id="adminEmail">st716640326@gmail.com</span>
+        <button class="signout-btn" onclick="logout()">Sign Out</button>
+
       </div>
     </header>
 
@@ -101,6 +110,7 @@
 ======================= -->
 
 <script src="js/adminDashboard.js"></script>
-<script src="js/adminAuth.js"></script>
+
+
 </body>
 </html>

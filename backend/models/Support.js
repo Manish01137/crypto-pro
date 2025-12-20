@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const messageSchema = new mongoose.Schema({
   sender: {
@@ -15,16 +15,19 @@ const messageSchema = new mongoose.Schema({
   }
 });
 
-const supportSchema = new mongoose.Schema({
-  bookingId: {
-    type: String,
-    required: true
+const supportSchema = new mongoose.Schema(
+  {
+    bookingId: {
+      type: String,
+      required: true
+    },
+    messages: [messageSchema],
+    status: {
+      type: String,
+      default: "open"
+    }
   },
-  messages: [messageSchema],
-  status: {
-    type: String,
-    default: "open" // open | closed
-  }
-}, { timestamps: true });
+  { timestamps: true }
+);
 
-export default mongoose.model("Support", supportSchema);
+module.exports = mongoose.model("Support", supportSchema);

@@ -21,10 +21,15 @@
     <span class="logo-text">MetaCoins <b>AI</b></span>
   </div>
 
+
+
   <!-- Mobile toggle -->
   <input type="checkbox" id="nav-toggle">
+
   <label for="nav-toggle" class="hamburger">
-    <span></span><span></span><span></span>
+    <span></span>
+    <span></span>
+    <span></span>
   </label>
 
   <nav class="nav-links">
@@ -33,10 +38,8 @@
     <a class="active">Check Status</a>
   </nav>
 
-  <button class="nav-btn">
-    <span>Get Started</span>
-  </button>
 </header>
+
 
 
 
@@ -101,42 +104,26 @@
 
 
 
+<!-- ===== CHATBOT START ===== -->
+<div id="chat-fab">💬</div>
 
-<!-- Floating Chat Icon -->
-<div id="chat-fab">
-  💬
-</div>
-
-<!-- Live Support Panel -->
 <div id="chat-panel">
   <div class="chat-header">
-    <div>
-      <h4>Live Support</h4>
-      <p>We typically reply within minutes</p>
-    </div>
+    <span>Live Support</span>
     <span id="chat-close">✕</span>
   </div>
 
-  <div class="chat-content">
-    <label>Enter your Booking ID to start chatting:</label>
-    <input type="text" placeholder="e.g., CRY-XXXXXXXX" />
-
-    <div class="chat-empty">
-      💬
-      <p>No messages yet.<br/>Start a conversation below!</p>
-    </div>
-  </div>
+  <div id="chat-body"></div>
 
   <div class="chat-input">
-    <input type="text" placeholder="Type your message..." />
-    <button>➤</button>
+    <input id="chat-input" type="text" placeholder="Type your message..." />
+    <button id="chat-send">➤</button>
   </div>
 </div>
 
-
-<script src="js/chatbot.js" defer></script>
-
-<script src="js/status.js" defer></script>
+<link rel="stylesheet" href="css/chatbot.css">
+<script src="js/chatbot.js"></script>
+<!-- ===== CHATBOT END ===== -->
 
 
 
