@@ -1,6 +1,6 @@
 console.log("✅ adminDashboard.js loaded");
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "";
 const adminToken = localStorage.getItem("adminToken");
 
 if (!adminToken) {
@@ -30,9 +30,9 @@ async function loadBookings() {
   showSkeleton();
 
   try {
-    const res = await fetch(`${API_BASE}/api/bookings`, {
+    const res = await fetch(`/api/bookings`, {
       headers: {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + adminToken
       }
     });
 
@@ -111,7 +111,7 @@ async function updateStatus(id, status) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + adminToken
       },
       body: JSON.stringify({ status })
     });
