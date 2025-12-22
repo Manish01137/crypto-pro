@@ -1,10 +1,10 @@
-const API = "http://localhost:5000";
+
 const convoList = document.querySelector(".conversations");
 const messagesBox = document.querySelector(".messages");
 let currentBooking = null;
 
 async function loadConversations() {
-  const res = await fetch(`${API}/api/support`);
+  const res = await fetch(`/api/support`);
   const data = await res.json();
 
   convoList.innerHTML = "";
@@ -18,7 +18,7 @@ async function loadConversations() {
 
 async function loadMessages(bookingId) {
   currentBooking = bookingId;
-  const res = await fetch(`${API}/api/support/${bookingId}`);
+  const res = await fetch(`/api/support/${bookingId}`);
   const data = await res.json();
 
   messagesBox.innerHTML = "";
@@ -31,7 +31,7 @@ async function loadMessages(bookingId) {
 }
 
 async function sendReply(text) {
-  await fetch(`${API}/api/support/reply`, {
+  await fetch(`/api/support/reply`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

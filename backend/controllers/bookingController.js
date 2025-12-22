@@ -1,18 +1,26 @@
 const Booking = require("../models/Booking");
 const generateBookingId = require("../utils/generateBookingId");
-const adminAuth = require("../middleware/adminAuth"); // 🔐 ADD THIS
+const adminAuth = require("../middleware/adminAuth");
 
 // ================================
 // USER: CREATE BOOKING
 // ================================
 exports.createBooking = async (req, res) => {
   try {
-    const { name, email, phone, packageName, amount } = req.body;
+    const { name, email, phone, telegram, packageName, amount } = req.body;
 
-    if (!name || !email || !phone || !packageName || amount === undefined) {
+    // ✅ VALIDATION
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !telegram ||
+      !packageName ||
+      amount === undefined
+    ) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required"
+        message: "All fields including Telegram ID are required"
       });
     }
 
@@ -21,6 +29,7 @@ exports.createBooking = async (req, res) => {
       name,
       email,
       phone,
+      telegram, // ✅ SAVE TELEGRAM
       packageName,
       amount,
       status: "pending"
@@ -63,6 +72,7 @@ exports.getBookingById = async (req, res) => {
       status: booking.status,
       packageName: booking.packageName,
       amount: booking.amount,
+      telegram: booking.telegram, // ✅ RETURN TELEGRAM
       createdAt: booking.createdAt
     });
 
@@ -79,7 +89,7 @@ exports.getBookingById = async (req, res) => {
 // 🔐 ADMIN: GET ALL BOOKINGS
 // ================================
 exports.getAllBookings = [
-  adminAuth, // 🔐 PROTECT
+  adminAuth,
   async (req, res) => {
     try {
       const bookings = await Booking.find().sort({ createdAt: -1 });
@@ -98,7 +108,7 @@ exports.getAllBookings = [
 // 🔐 ADMIN: UPDATE BOOKING STATUS
 // ================================
 exports.updateBookingStatus = [
-  adminAuth, // 🔐 PROTECT
+  adminAuth,
   async (req, res) => {
     try {
       const { status } = req.body;

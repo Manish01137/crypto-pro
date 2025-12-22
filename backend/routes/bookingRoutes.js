@@ -3,9 +3,6 @@ const router = express.Router();
 const Booking = require("../models/Booking");
 const adminAuth = require("../middleware/adminAuth");
 
-const auth = require("../middleware/authMiddleware");
-const adminOnly = require("../middleware/adminOnly");
-const bookingController = require("../controllers/bookingController");
 const {
   createBooking,
   getBookingById,
@@ -20,7 +17,7 @@ const {
 // ✅ CREATE BOOKING
 router.post("/", createBooking);
 
-// ✅ CHECK BOOKING STATUS (PLACE BEFORE :id)
+// ✅ CHECK BOOKING STATUS
 router.get("/status/:bookingId", async (req, res) => {
   try {
     const bookingId = req.params.bookingId.trim();
@@ -47,17 +44,17 @@ router.get("/status/:bookingId", async (req, res) => {
   }
 });
 
-// ✅ GET BOOKING BY ID (KEEP AFTER STATUS)
+// ✅ GET BOOKING BY ID
 router.get("/:id", getBookingById);
 
 /* =======================
    ADMIN ROUTES (PROTECTED)
 ======================= */
-router.post("/", bookingController.createBooking);
-router.get("/:id", bookingController.getBookingById);
 
-// ADMIN ONLY
-router.get("/", adminAuth, bookingController.getAllBookings);
-router.put("/:id/status", adminAuth, bookingController.updateBookingStatus);
+// ✅ GET ALL BOOKINGS (ADMIN)
+router.get("/", adminAuth, getAllBookings);
+
+// ✅ UPDATE STATUS (ADMIN)
+router.put("/:id/status", adminAuth, updateBookingStatus);
 
 module.exports = router;
