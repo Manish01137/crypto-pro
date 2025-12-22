@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const API_BASE = "https://crypto-pro-2.onrender.com";
+  const API_BASE = "https://crypto-pro-6.onrender.com";
 
   const btn = document.getElementById("checkStatusBtn");
   const input = document.getElementById("bookingId");
